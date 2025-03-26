@@ -1,143 +1,211 @@
 # Fizz Buzz Unit Tests
 
-Fizz Buzz starter code for FEW 2.1
+Fizz Buzz starter code for ACS 3310
 
-The goal of this project is to write unit tests for Fizz Buzz using Jest.
+The goal of this lab is to write **unit tests for Fizz Buzz using Jest**. You’ll practice writing test cases, analyzing coverage, and using AI as a coding companion.
+
+---
+
+## 🧠 Use AI to Help You Test
+Here are some useful prompts to help you work through this lab:
+
+### 🤖 AI Prompts
+- "Help me write a unit test for a function that returns Fizz, Buzz, or FizzBuzz."
+- "What edge cases should I test in this fizzBuzz implementation?"
+- "What’s the difference between `.toBe()` and `.toEqual()` in Jest?"
+- "What are edge cases?"
+- "<name the edge cases that you will test in this sample code>. These are the edge cases I'm testing, give me your opinion on these choices. Did i miss any edge cases?"
+- "How can I improve my test coverage for this file?"
+
+### ✅ Checks for Understanding
+- What is a unit test, and when does it pass?
+- What happens when a test fails in Jest?
+- Why do we use constants like `FIZZ`, `BUZZ`, and `FIZZBUZZ`?
+- How can I use coverage data to improve my test suite?
+
+Discuss your answers with a partner or ask AI to help you reflect.
+
+---
 
 ## Background
+The contents of this repo contain an implementation of the classic Fizz Buzz program. The program counts up to a given value. Along the way:
 
-The contents of this repo contain an implementation of the Fizz Buzz program. You may have heard of Fizz Buzz before. This program counts to any value. Along the way it counts values that are multiples of 3 as `fizz` and values that are multiples of 5 as `buzz`. When a number is a multiple of 3 and 5 it counts this as a `fizzbuzz`. 
+- Multiples of 3 are counted as `fizz`
+- Multiples of 5 as `buzz`
+- Multiples of both as `fizzbuzz`
 
-Call `fizzbuzz(count)` function inlcude a count and the function returns an object with the the counts of fizz, buzz, and fizzbuzz. 
+Calling `fizzBuzz(count)` returns an object with the counts:
+```js
+{ count: 100, fizz: 27, buzz: 14, fizzBuzz: 6 }
+```
 
-Typical output might look like:  
+The program has been broken down into small, testable functions and constants.
 
-`{ count: 100, fizz: 27, buzz: 14, fizzBuzz: 6 }`
+---
 
-The program has been broken down into several functions and a couple constants. 
-
-You can test the code with node by running: 
-
-`node index.js`
-
-`index.js` contains a simple program that uses fizzbuzz functions.
-
-## Getting started 
-
-- Download or Clone this repo
+## Getting Started
+- Clone or download this repo
 - Navigate the terminal to the project directory
-- `npm init -y`
-- `npm install --save-dev jest`
-- `mkdir tests`
-- `touch tests/test.js`
+- Run:
+  ```bash
+  npm init -y
+  npm install --save-dev jest
+  mkdir tests
+  touch tests/test.js
+  ```
+- Edit `package.json` to add:
+  ```json
+  "scripts": {
+    "test": "jest"
+  }
+  ```
 
-Edit `package.json`: 
+You can now run your tests with:
+```bash
+npm run test
+```
 
-```json
-"scripts": {
-  "test": "jest"
+A basic test looks like this:
+```js
+test('Sanity check', () => {
+  expect(2 + 2).toBe(4);
+});
+```
+
+---
+
+## Testing FizzBuzz
+To test the `fizzbuzz.js` module, import it like so:
+```js
+const fb = require('../fizzbuzz');
+```
+
+Access methods like this:
+```js
+fb.fizzBuzz(16);
+fb.isFizzy(4);
+```
+
+---
+
+## What to Test?
+The `fizzbuzz.js` module includes:
+- Constants:
+  - `FIZZ`
+  - `BUZZ`
+  - `FIZZBUZZ`
+- Functions:
+  - `isFizzy(n)` – true if divisible by 3
+  - `isBuzzy(n)` – true if divisible by 5
+  - `fizzyBuzzy(n)` – returns correct fizz/buzz string
+  - `fizzBuzz(count)` – returns count breakdown object
+
+Test each one of these!
+
+📌 **Tip:** Use the constants in your tests to avoid typos.
+
+---
+
+## Challenges
+
+### Challenge 1 – Test the Constants
+Ensure each constant equals its expected string value:
+```js
+expect(fb.FIZZ).toBe("fizz");
+```
+
+### Challenge 2 – Test `isFizzy(n)`
+Write tests that prove this function behaves as expected with inputs like:
+- 3, 6 (should return true)
+- 2, 5 (should return false)
+- Edge cases: 0, negative numbers
+
+### Challenge 3 – Test `isBuzzy(n)`
+Same approach as `isFizzy`. Try inputs:
+- 5, 10 (true)
+- 3, 6 (false)
+
+### Challenge 4 – Test `fizzyBuzzy(n)`
+Should return:
+- `"fizz"` for 3
+- `"buzz"` for 5
+- `"fizzbuzz"` for 15
+- `""` for 2
+
+Compare using:
+```js
+expect(fb.fizzyBuzzy(3)).toBe(fb.FIZZ);
+```
+
+### Challenge 5 – Test `fizzBuzz(count)`
+Use input `15` and test that the output is:
+```js
+{
+  count: 15,
+  fizz: 4,     // 3, 6, 9, 12
+  buzz: 2,     // 5, 10
+  fizzBuzz: 1  // 15
 }
 ```
+Use `.toEqual()` to compare objects.
 
-Write your tests in `tests/test.js`. 
+### 🤖 AI Prompts
+- "Review my code: <inlcude your unit tests here>"
 
-A typcial test with Jest looks like: 
+Ask your AI to code review your unit tests.
 
-```JavaScript
-test('Sanity check', () => {
+---
 
-})
+## Stretch Challenges
+
+### Challenge 6 – Refactor
+Can you simplify or optimize the fizzBuzz logic? Run your tests to ensure the refactor doesn't break functionality.
+
+### Challenge 7 – Make fizzBuzz Configurable
+Allow users to specify the fizz and buzz divisors:
+```js
+fizzBuzz(count, fizzOn = 3, buzzOn = 5);
+```
+Update your tests accordingly.
+
+### Challenge 8 – Organize your test with `describe()`
+Group related tests using describe() blocks to make your test suite easier to read and maintain.
+
+```JS
+describe('fizzyBuzzy()', () => {
+  test('returns fizz for 3', () => {
+    expect(fb.fizzyBuzzy(3)).toBe(fb.FIZZ);
+  });
+
+  test('returns buzz for 5', () => {
+    expect(fb.fizzyBuzzy(5)).toBe(fb.BUZZ);
+  });
+
+  test('returns fizzbuzz for 15', () => {
+    expect(fb.fizzyBuzzy(15)).toBe(fb.FIZZBUZZ);
+  });
+});
 ```
 
-Run your tests with: 
-
-`npm run test`
-
-The example test above would be "passing" since it does not throw an error. 
-
-Add an assertion: 
-
-```JavaScript
-test('Sanity check', () => {
-  expect(2+2).toBe(5)
-})
-```
-
-Run the test. Here the test fails since 2+2 != 5. 
-
-Fix the math and run the test again. This time the test should pass. 
-
-## Testing fizzbuzz
-
-To test the fizzbuzz you'll need to import it into `tests/test.js`. Using a node.js environment you can use: 
-
-`const fb = require('../fizzbuzz')`
-
-From here you can access any of the methods and properties exported from `fizzbuzz.js`. 
-
-`fb.fizzbuzz(16)`
-
-or 
-
-`fb.isFizzy(4)`
-
-### What to test?
-
-The `fizzbuzz.js` lib is made up of three constants, and four functions. You should write a test for each of these. 
-
-Read the documentation closely and not the parameters and return values. Unit testing is all about inputs and outputs. Your tests should prove the output for a given input. 
-
-## Challenges 
-
-**Challenge 1** - Write a test for each of the constants. These should test be equal to the their string namesakes. 
-
-**Challenge 2** - Test the `isFizzy(n)` function. This takes a number and returns true if the number is divisible by 3. Prove this with a unit test!
-
-**Challenge 3** - Test the `isBuzzy(n)` function. This function takes n as a parameter and returns true if the number is divisible by 5. Prove this with a unit test. 
-
-**Challenge 4** - Test the `fizzyBuzzy(n)` function. This function takes the parameter n and returns a string, 'fizz' if `n` is divisble by 3, 'buzz' if `n` is divisble by 5, and `fizzbuzz` if divisible by both 3 and 5. 
-
-Note! in this case the string values should match the constant values `FIZZ`, `BUZZ` and `FIZZBUZZ`.
-
-**Challenge 5** - Test the `fizzBuzz(count)` function. This function takes a Number `count` and returns an Object with details about the fizzy and buzziness of the `count`. 
-
-You should test all of the properties in returned object. 
-
-**Stretch Challenge 6** - Refactor the fizz buzz code. Take a look at make any changes you think would make the code more effiecient. Use your unit tests to make sure the code still works as expected. 
-
-**Stretch Challenge 7** - Parameterize the `fizzbuzz()` function. Currently the function looks for multiples of 3 and 5. The code here would be more useful if we could look for multiples of any two values. Imagine fizz for multiples of 2 and buzz for multiples of 7. 
-
-The fizzbuzz function might look like this: 
-
-`fizzBuzz(count, fizzOn = 3, buzzOn = 5)`
-
-Use you unit tests to make sure the code is still working as you make changes. 
+---
 
 ## Checking Coverage
-
-How much of your code is covered by the test you wrote? Pretty good question huh?
-
-Jest will automate this for you. 
-
-`npx jest --coverage`
-
-<!-- > -->
-
-This should provide output similar to: 
-
+Want to know how much of the code your tests actually verify?
+Run:
+```bash
+npx jest --coverage
+```
+Look for:
 ```
 ----------|----------|----------|----------|----------|-------------------|
-File      |  % Stmts | % Branch |  % Funcs |  % Lines | Uncovered Line #s |
-----------|----------|----------|----------|----------|-------------------|
-All files |    96.88 |      100 |       80 |    96.55 |                   |
- index.js |    96.88 |      100 |       80 |    96.55 |                70 |
+File      | % Stmts  | % Branch | % Funcs  | % Lines  | Uncovered Line #s |
 ----------|----------|----------|----------|----------|-------------------|
 ```
+Focus on reaching 100% on **statements**, **branches**, **functions**, and **lines** where possible.
 
-This tells you what % of code statements were covered by the tests. What % of code branches were covered, these are if else, switch cases etc. What % of functions were tested. What % of lines of code were tested, and line numbers for lines of code that were not tested. 
+---
 
-Check coverage and identify what has not been tested.
+Happy Testing! 🧪
 
-
-
+Use Jest, explore edge cases, and get in the habit of checking your coverage. Let AI help with strategy and syntax, but make sure you understand what your tests are doing and why!
 
